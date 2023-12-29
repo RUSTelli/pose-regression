@@ -16,7 +16,7 @@ DECODER_WEIGHT_3 = os.path.join(DATA, WEIGHTS_DIR, 'decoder_weights_decoder_3.jo
 ######################  L A N D S A F F E C T I V E N E T #####################
 
 LAN_PATH = os.path.join(DATA, WEIGHTS_DIR_LAN, "c.h5")
-LAN_JSON = os.path.join(DATA, WEIGHTS_DIR_LAN, "complex.json")
+LAN_JSON = os.path.join(DATA, WEIGHTS_DIR_LAN, "c.json")
 
 ##########################  T R A I N #############################
 ### GAIT ###
