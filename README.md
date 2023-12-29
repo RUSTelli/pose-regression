@@ -11,7 +11,7 @@ Two network architectures, EwalkNet and LandsAffectiveNet, are presented, each f
 
 # How to use
 
-- The requirements used for the project are stored in the requirements.txt file -
+The requirements used for the project are stored in the requirements.txt file.
 
 0 - Create a directory named 'raw_video' inside the 'data' directory. 
 
@@ -20,8 +20,12 @@ Two network architectures, EwalkNet and LandsAffectiveNet, are presented, each f
 2 - In the 'data' directory, insert the Excel containing the dataset related to users' responses to the videos, and refactor the name of this file as "labels.xlsx".
 
 3 - The main.py will be formatted as it follows (if you have refactored the Excel file as required in the step 2 you don't need to change anything in the following step):
+
       - FEATURES_CSV = os.path.join(DATA, "dataset.csv") # Automatically created (the name of the dataset containing the landmarks and the affective features extracted from the videos).
+      
       - LABELS_XLSX  = os.path.join(DATA, "labels.xlsx") # Related to the Excel file refactored as labels.xlsx (the name of the Excel file containing the dataset related to users' responses to the videos).
+      
       - LABELS_CSV   = os.path.join(DATA, "labels.csv") # Automatically created (the name of the CSV file containing the dataset related to users' responses to the videos preprocessed).
+      
 
 4 - Run the main.py to execute the pipeline, which consists of extracting features from the videos and saving them into a CSV, preprocessing the responses that constitute the labels for the regression task from the Excel file, and then providing them to the two main pre-trained architectures to plot the results."
