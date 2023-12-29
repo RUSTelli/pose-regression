@@ -10,9 +10,11 @@ In addressing the problem, we frame it as a sequence-to-value regression task, m
 Two network architectures, EwalkNet and LandsAffectiveNet, are presented, each featuring a backbone encoder for landmarks and distinct affective features, results from experiments with these architectures are analyzed.
 
 # How to use
-1 - In the raw_video subdirectory, insert the videos related to validation.
+0 - Create a directory named 'raw_video' (without apices) inside the 'data' directory. 
 
-2 - In the data directory, insert the Excel containing the dataset related to users' responses to the videos, refactor the name of this file as "labels.xlsx"
+1 - In the 'raw_video' subdirectory, insert the videos related to validation.
+
+2 - In the 'data' directory, insert the Excel containing the dataset related to users' responses to the videos, and refactor the name of this file as "labels.xlsx".
 
 3 - In the main.py file specify the following path:
    - FEATURES_CSV: the name of the dataset containing the landmarks and the affective features extracted from the videos.
