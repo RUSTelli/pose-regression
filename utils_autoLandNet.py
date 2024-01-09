@@ -80,48 +80,46 @@ lstmsvr_decoder.save_decoder_weights('decoder_weights')
 '''
 
 
+######### TEST ON THE FOUR DECODERS ##########
 def test_AutoLandNet(landmarks, labels):
-    latent_dim=100
+    latent_dim = 100
     lstm_weights_path = LSTMENCODER_PATH
-    new_lstm_svr_decoder = LSTMSVRDecoder(latent_dim=latent_dim, lstm_weights_path=lstm_weights_path, num_emotions=4)
-    new_lstm_svr_decoder.load_decoder_weights(filepath_prefix=os.path.join("data", WEIGHTS_DIR, 'decoder_weights'))
-    encoded_data_new = new_lstm_svr_decoder.encode(landmarks)
-    decoded_data_new = new_lstm_svr_decoder.decode(encoded_data_new)
-    mse_test = mean_squared_error(labels, np.array(decoded_data_new).T)
-    print(f'Mean Squared Error on Test Set: {mse_test}')
-    mae_test = mean_absolute_error(labels, np.array(decoded_data_new).T)
-    print(f'Mean Absolute Error on Test Set: {mae_test}')
-    ############## TO PLOT SINGLE IMAGES FOR EACH EMOTION ###########
-    '''
-    for i in range(labels.shape[1]):
-        plt.figure(figsize=(8, 4))  # Create a new figure for each emotion
-        plt.scatter(range(len(labels)), labels[:, i], label=f'Actual - Emotion {i + 1}')
-        plt.scatter(range(len(decoded_data_new[i])), decoded_data_new[i], label=f'Predicted - Emotion {i + 1}',
-                    marker='x')
 
-        plt.legend()
-        plt.xlabel('Sample Index')
-        plt.ylabel('Value')
-        plt.title(f'Emotion {i + 1}')
-        plt.show()
-    '''
-    # plot the scatter plot for each of the four emotion on test data in a single image
+    # List to store MSE and MAE for each decoder
+    mse_list = []
+    mae_list = []
 
-    plt.figure(figsize=(15, 8))
-    for i in range(labels.shape[1]):
-        plt.subplot(2, 2, i + 1)  # Create a subplot for each emotion
-        plt.scatter(range(len(labels)), labels[:, i], label=f'Actual - Emotion {i + 1}')
-        plt.scatter(range(len(decoded_data_new[i])), decoded_data_new[i], label=f'Predicted - Emotion {i + 1}',
-                    marker='x')
+    for decoder_index in range(4):
+        new_lstm_svr_decoder = LSTMSVRDecoder(latent_dim=latent_dim, lstm_weights_path=lstm_weights_path,
+                                              num_emotions=4)
+        new_lstm_svr_decoder.load_decoder_weights(filepath_prefix=os.path.join("data", WEIGHTS_DIR, 'decoder_weights'))
 
-        plt.legend()
-        plt.xlabel('Sample Index')
-        plt.ylabel('Value')
-        plt.title(f'Emotion {i + 1}')
+        encoded_data_new = new_lstm_svr_decoder.encode(landmarks)
+        decoded_data_new = new_lstm_svr_decoder.decode(encoded_data_new)
 
-    plt.tight_layout()
-    plt.show()
+        mse_test = mean_squared_error(labels, np.array(decoded_data_new).T)
+        mae_test = mean_absolute_error(labels, np.array(decoded_data_new).T)
 
+        mse_list.append(mse_test)
+        mae_list.append(mae_test)
+
+        # Plotting for each emotion
+        for i in range(labels.shape[1]):
+            plt.figure(figsize=(8, 4))  # Create a new figure for each emotion
+            plt.scatter(range(len(labels)), labels[:, i], label=f'Actual - Emotion {i + 1}')
+            plt.scatter(range(len(decoded_data_new[i])), decoded_data_new[i], label=f'Predicted - Emotion {i + 1}',
+                        marker='x')
+
+            plt.legend()
+            plt.xlabel('Sample Index')
+            plt.ylabel('Value')
+            plt.title(f'Decoder {decoder_index + 1} - Emotion {i + 1}')
+            plt.show()
+
+    # Print overall MSE and MAE for each decoder
+    for decoder_index, (mse, mae) in enumerate(zip(mse_list, mae_list), 1):
+        print(f'Decoder {decoder_index} - Mean Squared Error on Test Set: {mse}')
+        print(f'Decoder {decoder_index} - Mean Absolute Error on Test Set: {mae}')
 
 '''
 ############### EVALUATION ##############
